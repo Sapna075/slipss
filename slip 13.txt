@@ -9,67 +9,84 @@ Thread t=new Thread();
 System.out.println("current thread is: "+t.currentThread());
 }}
 -----------------------------------------------------------------
+2)
+slip13_2html.jsp
 
-2)-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-namespace slip13_2
-{
-    class Student
-    {
-        int rno;
-        string name;
-        int s1, s2, s3, tot;
-        float per;
-        public void accept()
-        {
-            Console.WriteLine("Enter Student Details : ");
-            Console.Write("Roll No : ");
-            rno = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Name : ");
-            name = Console.ReadLine();
-            Console.Write("Sub. 1 Marks : ");
-            s1 = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Sub. 2 Marks : ");
-            s2 = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Sub. 3 Marks : ");
-            s3 = Convert.ToInt32(Console.ReadLine());
-            tot = s1 + s2 + s3;
-            per = tot / 3;
-        }
-        public void display()
-        {
-            Console.WriteLine("Student Details : ");
-            Console.WriteLine("Roll No : " + rno);
-            Console.WriteLine("Name : " + name);
-            Console.WriteLine("Sub. 1 Marks : " + s1);
-            Console.WriteLine("Sub. 2 Marks : " + s2);
-            Console.WriteLine("Sub. 3 Marks : " + s3);
-            Console.WriteLine("Total Marks : " + tot);
-            Console.WriteLine("Per. Marks : " + per);
-        }
-        static void Main(string[] args)
-        {
-            int n, i;
+<html>
+<head>
+    <title>College Details</title>
+</head>
+<body>
+<form method=get action="slip13a.jsp">
+    <h1>College Details</h1>
+    <table border="1">
+        <tr>
+            <th>College ID</th>
+            <th>College Name</th>
+            <th>Address</th>
+        </tr>
+       
+        <tr>
+            <td>1</td>
+            <td>Example College</td>
+            <td>123 Example Street, City, Country</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Another College</td>
+            <td>456 Another Avenue, City, Country</td>
+        </tr>
+        
+    </table>
+</body>
+</html>
 
-            Console.WriteLine("Enter No. of Students : ");
-            n = Convert.ToInt32(Console.ReadLine());
 
-            Student[] s = new Student[n];
-            for (i = 0; i < n; i++)
-            {
-                s[i] = new Student();
-                s[i].accept();
-            }
-            for (i = 0; i < n; i++)
-            {
-                s[i].display();
-            }
-            Console.ReadKey();
-        }
-    }
+slip13_2.jsp
+<%@page import="java.sql.*"%>
+<html>
+<head>
+<title>College Details</title>
+</head>
+<body>
+<h1>College Details</h1>
+<table border="1">
+<tr>
+<th>College ID</th>
+<th>College Name</th>
+<th>Address</th>
+</tr>
+<%
+try {
+ Class.forName("com.mysql.jdbc.Driver");
+ Connection con =
+DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root",
+"");
+ Statement stmt = con.createStatement();
+ ResultSet rs = stmt.executeQuery("SELECT CollegeID, Coll_Name, Address
+FROM College");
+ while (rs.next()) {
+ %>
+ <tr>
+ <td><%= rs.getInt(1) %></td>
+ <td><%= rs.getString(2) %></td>
+ <td><%= rs.getString(3) %></td>
+ </tr>
+ <%
+ }
+ rs.close();
+ stmt.close();
+ con.close();
+} catch (Exception e) {
+ out.println("Error: " + e.getMessage());
 }
+%>
+</table>
+</body>
+</html>
+
+
+
 ---------------------------------------------------------------------
 3)-
 Public Class Form1
