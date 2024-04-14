@@ -1,0 +1,210 @@
+slip 28 -
+1)
+class table
+{
+synchronized void printTable(int n)
+{
+for(int i=1;i<=5;i++)
+{
+System.out.println(n*i);
+try
+{
+Thread.sleep(400);
+}catch(Exception e)
+{
+System.out.println(e);
+}}}}
+class mythread1 extends Thread
+{
+table t;
+mythread1(table t)
+{
+this.t=t;
+}
+public void run()
+{
+t.printTable(5);
+}
+}
+class mythread2 extends Thread
+{
+table t;
+mythread2(table t)
+{
+this.t=t;
+}
+public void run()
+{
+t.printTable(100);
+}}
+class slip28_1
+{
+public static void main(String args[])
+{
+table obj=new table();
+mythread1 t1=new mythread1(obj);
+mythread2 t2=new mythread2(obj);
+t1.start();
+t2.start();
+}
+}
+----------------------------------------------------------------------
+2)
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class slip28_2 extends JFrame {
+    private Choice empNoChoice;
+    private JTable empDetailsTable;
+    private DefaultTableModel tableModel;
+
+    private String[][] dummyData = {
+            {"101", "John Doe", "Developer", "50000"},
+            {"102", "Jane Smith", "Manager", "60000"},
+            {"103", "Mark Johnson", "Designer", "55000"}
+    };
+
+    public slip28_2() {
+        setTitle("Employee Details");
+        setSize(600, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        // Choice component for selecting employee number
+        empNoChoice = new Choice();
+        empNoChoice.add("101");
+        empNoChoice.add("102");
+        empNoChoice.add("103");
+
+        // Button to trigger display of employee details
+        JButton showDetailsButton = new JButton("Show Details");
+        showDetailsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                displayEmployeeDetails();
+            }
+        });
+
+        JPanel topPanel = new JPanel(new FlowLayout());
+        topPanel.add(new JLabel("Select Emp No:"));
+        topPanel.add(empNoChoice);
+        topPanel.add(showDetailsButton);
+        add(topPanel, BorderLayout.NORTH);
+
+        // Table for displaying employee details
+        tableModel = new DefaultTableModel();
+        empDetailsTable = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(empDetailsTable);
+        add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private void displayEmployeeDetails() {
+        String selectedEmpNo = empNoChoice.getSelectedItem();
+        String[] selectedEmpDetails = null;
+        for (String[] emp : dummyData) {
+            if (emp[0].equals(selectedEmpNo)) {
+                selectedEmpDetails = emp;
+                break;
+            }
+        }
+
+        if (selectedEmpDetails != null) {
+            String[] columnNames = {"Emp No", "Name", "Position", "Salary"};
+            tableModel.setDataVector(new Object[][]{selectedEmpDetails}, columnNames);
+        } else {
+            JOptionPane.showMessageDialog(this, "Employee details not found for selected Emp No", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new slip28_2().setVisible(true);
+            }
+        });
+    }
+}
+
+------------------------------------------------------------
+
+3)
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ConsoleApplication5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n,i;
+
+            Console.Write("Enter Array Size : ");
+            n = Convert.ToInt32(Console.ReadLine());
+
+            int []arr = new int[n];
+
+            Console.WriteLine("Enter Array Elements : ");
+            for (i = 0; i < n; i++)
+            {
+                arr[i] = Convert.ToInt32(Console.ReadLine());
+            }
+
+            Console.WriteLine("Array Elements before reverse : ");
+            for (i = 0; i < n; i++)
+            {
+                Console.WriteLine(arr[i]);
+            }
+
+            int j = n - 1;
+            for (i = 0; i < j; i++)
+            {
+                int temp;
+
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+
+                j--;
+            }
+
+            Console.WriteLine("Array Elements after reverse : ");
+            for (i = 0; i < n; i++)
+            {
+                Console.WriteLine(arr[i]);
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
+
+
+----------------------------------------------------------------------
+4)
+Imports System.Data
+Imports System.Data.SqlClient
+Public Class Form1
+    Dim con As New SqlConnection("Data Source=.;Initial Catalog=tybca;Integrated Security=True;Pooling=False")
+    Dim cmd As New SqlCommand
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Try
+            con.Open()
+            cmd.Connection = con
+            cmd.CommandText = "insert into patient values(" + TextBox1.Text + ",'" + TextBox2.Text + "','" + TextBox3.Text + "','" + TextBox4.Text + "')"
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Record saved successfuly")
+        Catch ex As Exception
+            MessageBox.Show("Error : " + ex.Message)
+        Finally
+            con.Close()
+        End Try
+    End Sub
+End Class

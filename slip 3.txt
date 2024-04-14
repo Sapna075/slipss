@@ -1,0 +1,189 @@
+slip 3 -
+
+1)client
+import java.io.*;
+import java.net.*;
+
+class slip3_1c
+{
+    public static void main(String args[])   
+    {
+        try
+        {
+            Socket cs = new Socket("LocalHost", 8420); 
+            
+            BufferedReader infu = new BufferedReader(new InputStreamReader(System.in)); 
+
+            System.out.println("Enter a number : ");
+
+            int a = Integer.parseInt(infu.readLine());  
+
+            DataOutputStream out = new DataOutputStream(cs.getOutputStream());   
+
+            out.writeInt(a);
+
+            DataInputStream in = new DataInputStream(cs.getInputStream()); 
+            
+            System.out.println(in.readUTF());
+            
+            cs.close();          }
+        catch(Exception e)
+        {
+            System.out.println(e.toString()); 
+        }
+    }
+}
+
+1)server
+import java.io.*;
+import java.net.*;
+class slip3_1s  
+{
+public static void main(String args[])      
+{
+  try{
+      ServerSocket ss = new ServerSocket(8420);   
+      System.out.println("Server Started...............");
+      Socket s = ss.accept();
+      DataInputStream in = new DataInputStream(s.getInputStream()); 
+      int x = in.readInt(); 
+      DataOutputStream otc = new DataOutputStream(s.getOutputStream());
+      int flag=0;  
+      for(int i = 2; i < x; i++)
+      { 
+        if(x % i == 0)  
+        { 
+          flag=1;
+          //otc.writeUTF(x + " is Prime");
+        }
+      } 
+      if(flag==0) {
+        otc.writeUTF(x + " is Prime");
+      }
+      else
+      {
+        otc.writeUTF(x + " is not Prime");
+      }
+    } catch(Exception e)
+    {
+      System.out.println(e.toString());
+    }
+  }
+}
+-------------------------------------------------------------------------------
+2)
+import java.awt.*;
+import java.awt.event.*;
+public class slip3_2 extends Frame implements Runnable {
+ private int x, y, w, h, f;
+ private Color c = Color.red;
+ public slip3_2() {
+ setTitle("Bouncing Boll");
+ setSize(400, 400);
+ setVisible(true);
+ w = getWidth();
+ h = getHeight();
+ x = (int) (Math.random() * getWidth());
+ y = (int) (Math.random() * getHeight());
+ Thread t = new Thread(this);
+ t.start();
+ }
+ public void run() {
+ while (true) {
+ switch (f) {
+ case 0:
+ y++;
+ if (y > h - 50) {
+c = new Color((int) (Math.random() * 256), (int) 
+(Math.random() * 256),(int) (Math.random() * 256));
+f = 1;
+ }
+ break;
+ case 1:
+ y--;
+ if (y < 0) {
+ c = new Color((int) (Math.random() * 256), (int) 
+(Math.random() * 256),(int) (Math.random() * 256));
+ f = 0;
+ }
+ }
+ repaint();
+ try {
+ Thread.sleep(10);
+ } catch (Exception e) {
+ }
+ }
+ }
+ public void paint(Graphics g) {
+ super.paint(g);
+ g.setColor(c);
+ g.fillOval(x, y, 20, 20);
+ }
+public static void main(String args[]) {
+ new slip3_2();
+ }
+}
+-----------------------------------------------------------------------
+3)
+void sum(int no1,int no2)
+{
+    Console.WriteLine(" Add is:" + (no1 + no2));
+}
+int no1, no2;
+Console.Write("enter no1:");
+no1 = Convert.ToInt32(Console.ReadLine());
+Console.Write("enter no2:");
+no2= Convert.ToInt32(Console.ReadLine());
+sum(no1 ,no2);
+
+----------------------------------------------------------------------------
+4)
+Imports System.Data
+Imports System.Data.SqlClient
+
+Public Class Form1
+
+    Dim conn As New SqlConnection("Data Source=.\sqlexpress;Initial Catalog=tybba;Integrated Security=True;Pooling=False")
+    Dim cmd As New SqlCommand
+    Dim dr As SqlDataReader
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Try
+            conn.Open()
+            cmd.Connection = conn
+            cmd.CommandText = "insert into teacher values(" + TextBox1.Text + ",'" + TextBox2.Text + "','" + TextBox3.Text + "')"
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Record Saved Successfully")
+            TextBox1.Text = ""
+            TextBox2.Text = ""
+            TextBox3.Text = ""
+            TextBox1.Focus()
+        Catch ex As Exception
+            MessageBox.Show("Error " + ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        Try
+            conn.Open()
+            cmd.Connection = conn
+            cmd.CommandText = "select * from teacher where tname='Seeta'"
+            dr = cmd.ExecuteReader()
+            If dr.Read Then
+                TextBox1.Text = dr(0)
+                TextBox2.Text = dr(1)
+                TextBox3.Text = dr(2)
+            Else
+                MessageBox.Show("Record not found")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error " + ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+End Class
+
+

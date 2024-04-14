@@ -1,0 +1,159 @@
+slip 16 -
+1)slip16_1html.jsp
+<html><body>
+<form method=get action="slip16_1.jsp">
+Enter user name:<input type="text" name="t1"><br><br>
+Enter password:<input type="text" name="t2"><br><br>
+<input type="submit" value="Display">
+</form></body></html>
+
+1)slip16_1.jsp
+<%@page language="java"%>
+<html><body>
+<font color="red">
+	<%! String name,pwd;
+	%>
+	<% name=request.getParameter("t1");
+		pwd=request.getParameter("t2");
+		if(name.compareTo(pwd)==0)
+			out.println("login success");
+		else
+			out.println("login unsuccess");
+	%>
+</font></body></html>
+--------------------------------------------------------------
+2)
+import java.util.*;
+import java.sql.*; 
+public class slip16_2
+{
+	public static void main(String args[]) throws Exception
+	{
+	Connection con=null;
+	PreparedStatement ps=null;
+	String query,query2;
+	Statement st;
+	ResultSet rs;
+	int nos;
+	int a,n,c;
+	String b;
+	Class.forName("com.mysql.jdbc.Driver"); 
+	con=DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb","root","123456"); 
+	Scanner sc = new Scanner(System.in); 
+	System.out.println("Enter number of students: ");
+	nos = sc.nextInt();              
+	for(int i=1;i<=nos;i++)
+	{
+	System.out.println("Pls Enter rno");  
+	a=sc.nextInt();						  	
+	System.out.println("Pls Enter sname");
+	b=sc.next();
+	System.out.println("Pls Enter per");
+	c=sc.nextInt();
+	query="insert into student1 values(?,?,?)"; 
+	ps=con.prepareStatement(query); 
+	ps.setInt(1,a);
+	ps.setString(2,b);
+	ps.setInt(3,c);
+	n=ps.executeUpdate(); 
+	if(n>0)
+	System.out.println("RECORD INSERTED SUCCESSFULLY");
+	else
+	System.out.println("RECORD NOT INSERTED");
+	}
+	ps.close();		
+	st=con.createStatement(); 
+	query2="select * from student1 where per=(select max(per) from student1)"; 
+	rs=st.executeQuery(query2); 
+	System.out.println("DETAILS OF STUDENT HAVING MAXIMUM PERCENTAGE IS AS FOLLOWS");
+	while(rs.next())
+		{
+			System.out.println(rs.getInt("rno") + rs.getString("sname") + rs.getInt("per"));
+		}
+	st.close();	
+	con.close();
+	}	
+}
+
+--------------------------------------------------------------------
+
+3)
+protected void Button1_Click(object sender, EventArgs e)
+    {
+        if (TextBox1.Text == "DYP" && TextBox2.Text == "Pimpri") 
+        {
+            //Label1.Text = "Login Successful";
+            Response.Write("<script>alert('Login Successful');</script>");
+        }
+        else
+        {
+            Label1.Text = "Login Unsuccessful";
+        }
+    }
+---------------------------------------------------------------------------
+4)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace slip16_2
+{
+    class Suppliers
+    {
+        int sid;
+        string name;
+        int pincode;
+        string address;
+
+        public void accept()
+        {
+            Console.WriteLine("Enter Suppliers Details : ");
+            Console.Write("sid: : ");
+            sid = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Name : ");
+            name = Console.ReadLine();
+            Console.Write("address : ");
+            address = Console.ReadLine();
+            Console.Write("pincode : ");
+            pincode = Convert.ToInt32(Console.ReadLine());
+
+        }
+
+        public void display()
+        {
+            Console.WriteLine("Suppliers Details : ");
+            Console.WriteLine("sid : " + sid);
+            Console.WriteLine("Name : " + name);
+            Console.WriteLine("Address: " + address);
+            Console.WriteLine("pincode : " + pincode);
+
+        }
+
+        static void Main(string[] args)
+        {
+            int n, i;
+
+            Console.WriteLine("Enter No. of Suppliers : ");
+            n = Convert.ToInt32(Console.ReadLine());
+
+            Suppliers[] s = new Suppliers[n];
+
+            for (i = 0; i < n; i++)
+            {
+                s[i] = new Suppliers();
+                s[i].accept();
+            }
+
+            for (i = 0; i < n; i++)
+            {
+                s[i].display();
+            }
+
+            Console.ReadKey();
+
+        }
+    }
+}
+
+

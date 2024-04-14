@@ -1,0 +1,174 @@
+slip 2 -
+
+1)slip2_1html.jsp
+<html>
+<body>
+<form action="slip2_1.jsp" method="post">
+Enter Number :<input type="text" name="t1">
+<input type="submit" value="Submit" name="s1">
+</form>
+</body>
+</html>
+
+1)slip2_1.jsp
+<%@ page import="java.util.*" %>
+<%
+if(request.getParameter("s1")!=null)
+  {
+	Integer num,a,i,sum = 0;
+	
+	num = Integer.parseInt(request.getParameter("t1"));
+	a = num;
+
+	for(i=1;i<a;i++)
+	{
+		if(a%i==0)
+		{
+			sum=sum + i;
+		}
+	}
+	if(sum==a)
+	{
+		out.println(+num+ " is a perfect number");
+	}
+	else
+	{
+		out.println(+num+ " is not a perfect number");
+	}
+  }	
+%>
+-----------------------------------------------------------------------------
+2)
+import java.awt.*;
+public class slip2_2 extends Frame
+{
+ int f = 0;
+ public slip2_2()
+{
+ flag s = new flag();
+ s.start();
+ setSize(500,500);
+ setVisible(true);
+ }
+ public void paint (Graphics g)
+ {
+ switch (f)
+{
+ case 0 :
+ g.drawLine(150, 50, 150, 300);
+ case 1 :
+ g.drawRect(150, 50, 100, 90);
+ }
+ }
+
+class flag extends Thread
+{
+ public void run()
+{
+ while(true)
+{
+ f = (f+1)%2;
+ repaint();
+ try
+{
+ Thread.sleep(1000);
+ }catch(Exception e){ }
+ }
+ }
+}
+ public static void main(String args[])
+{
+ new slip2_2();
+ }
+}
+------------------------------------------------------------------------------------
+3)
+Public Class Form1
+    Dim x As Integer = 0
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        Label1.Location = New Point(x, 100)
+        x = x + 10
+        If x > Me.Width - Label1.Width Then
+            Timer1.Enabled = False
+        End If
+    End Sub
+
+    Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick
+        Label1.Location = New Point(x, 100)
+        x = x - 10
+        If x < Me.Width - Label1.Width Then
+            Timer1.Enabled = False
+        End If
+    End Sub
+End Class
+
+--------------------------------------------------------------------------------------
+4)
+class dept
+{
+    protected int dno;
+    protected string dname;
+    public void setdept()
+
+    {
+        Console.Write("enter dept no. :");
+        dno = Convert.ToInt32(Console.ReadLine());
+        Console.Write("enter dept name :");
+        dname = Console.ReadLine();
+    }
+    public void getdept()
+    {
+        Console.Write("dept no :" + dno);
+        Console.Write("dept name :" + dname);
+    }
+}
+class sales:dept
+{
+    protected int amt;
+    public void setsales()
+    {
+        setdept();
+        Console.Write("enter sales amount:");
+        amt = Convert.ToInt32(Console.ReadLine());
+    }
+public void getsales()
+    {
+        getdept();
+        Console.Write("sales amount :" + amt);
+    }
+}
+class HR : dept
+{
+    protected int sal;
+    public void setHR()
+    {
+        setdept();
+        Console.WriteLine("enter salary amount:");
+        sal = Convert.ToInt32(Console.ReadLine());
+    }
+    public void getHR()
+    {
+        getdept();
+        Console.Write("salary amount :" + sal);
+    }
+}
+class program
+{
+    static void Main(string[] args)
+    {
+        sales s = new sales();
+        HR h = new HR();
+        Console.WriteLine("enter sales dept details:");
+        s.setsales();
+        Console.WriteLine("enter HR dept details:");
+        h.setHR();
+
+        Console.WriteLine("sales dept details:");
+        s.getsales();
+        Console.WriteLine("HR dept details:");
+        h.getHR();
+
+        Console.ReadKey();
+    }
+}
+

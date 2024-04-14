@@ -1,0 +1,136 @@
+slip 1 -
+
+1)
+import java.awt.*;
+import java.awt.event.*;
+class slip1_1 extends Frame implements Runnable
+{
+ Thread t;
+ int f,x,y;
+String str;
+ slip1_1()
+ {
+ t=new Thread(this);
+ t.start();
+ setLayout(null);
+ setSize(300,300);
+ setVisible(true);
+ f=1;
+ x=100;
+y=100;
+ str="hello java";
+ }
+ public void update() 
+ {
+ x=x+10*f;
+ if(x>300)
+ f=-1;
+ if(x<100)
+ f=1;
+ }
+ public void run()
+ {
+ while(true)
+ {
+repaint();
+ update(); 
+ try{
+ Thread.sleep(500);
+ }catch(Exception e){} 
+ }
+ }
+ public void paint(Graphics g)
+ {
+ g.drawString(str,x,y); 
+ }
+ public static void main(String a[])
+{
+ new slip1_1();
+ }
+}
+------------------------------------------------------------------------------
+2)client
+
+import java.io.*;
+import java.net.*;
+public class slip1_2cli
+{
+public static void main(String args[])throws Exception
+{
+Socket s=new Socket("localhost",5000);
+BufferedReader in=new BufferedReader(new InputStreamReader(s.getInputStream()));
+PrintWriter out=new PrintWriter(s.getOutputStream(),true);
+BufferedReader consoleIn=new BufferedReader(new InputStreamReader(System.in));
+String ip;
+while((ip=consoleIn.readLine())!=null)
+{
+out.println(ip);
+String response=in.readLine();
+System.out.println("server: "+response);
+}
+in.close();
+out.close();
+s.close();
+}}
+
+2)server
+
+import java.io.*;
+import java.net.*;
+public class slip1_2ser
+{
+public static void main(String args[])throws Exception
+{
+ServerSocket ss=new ServerSocket(5000);
+System.out.println("server started. waiting for client... ");
+Socket cs=ss.accept();
+System.out.println("client connected");
+BufferedReader in=new BufferedReader(new InputStreamReader(cs.getInputStream()));
+PrintWriter out=new PrintWriter(cs.getOutputStream(),true);
+BufferedReader consoleIn=new BufferedReader(new InputStreamReader(System.in));
+String ip;
+while((ip=in.readLine())!=null)
+{
+System.out.println("client: "+ip);
+String response=consoleIn.readLine();
+out.println(response);
+}
+in.close();
+out.close();
+cs.close();
+ss.close();
+}}
+-----------------------------------------------------------------------------------------------
+3)
+Public Class Form1
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Timer1.Enabled = True
+
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        TextBox1.Text = Val(TextBox1.Text) + 1
+    End Sub
+End Class
+
+------------------------------------------------------------------------------------------
+4)
+Imports System.Data
+Imports System.Data.SqlClient
+Public Class Form1
+    Dim con As New SqlConnection("Data Source=.;Initial Catalog=tybca;Integrated Security=True;Pooling=False")
+    Dim cmd As New SqlCommand
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Try
+            con.Open()
+            cmd.Connection = con
+            cmd.CommandText = "insert into emp values(" + TextBox1.Text + ",'" + TextBox2.Text + "','" + TextBox3.Text + "')"
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Record saved successfuly")
+        Catch ex As Exception
+            MessageBox.Show("Error : " + ex.Message)
+        Finally
+            con.Close()
+        End Try
+    End Sub
+End Class

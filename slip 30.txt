@@ -1,0 +1,117 @@
+slip 30 -
+1)slip30_1html.jsp
+<html><body>
+<form method=get action="slip30_1.jsp">
+Enter String:<input type="text" name="t1"><br><br>
+<input type="submit" value="Display">
+</form></body></html>
+
+1)slip30_1.jsp
+<%@page language="java"%>
+<html><body>
+<font color="red">
+<%! 
+String s1;
+%>
+<% s1=request.getParameter("t1");
+StringBuffer br=new StringBuffer(s1);
+out.println("reverse string: "+br.reverse());
+%>
+</font></body></html>
+
+----------------------------------------------------------------------------
+
+2)
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class slip30_2 extends JFrame {
+    private int x = 50;
+    private int y = 250;
+
+    public slip30_2() {
+        setTitle("Moving Car");
+        setSize(800, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        MovingPanel movingPanel = new MovingPanel();
+        add(movingPanel);
+
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    movingPanel.moveCar();
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    class MovingPanel extends JPanel {
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.setColor(Color.RED);
+            g.fillRect(x, y, 100, 50);
+            g.setColor(Color.BLACK);
+            g.fillOval(x + 10, y + 40, 30, 30);
+            g.fillOval(x + 60, y + 40, 30, 30);
+            g.setColor(Color.GRAY);
+            g.fillRect(x + 70, y - 20, 30, 20);
+        }
+
+        public void moveCar() {
+            if (x >= 800) {
+                x = -100;
+            }
+            x += 1;
+            repaint();
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new slip30_2().setVisible(true);
+            }
+        });
+    }
+}
+
+------------------------------------------------------------------------------
+3)
+Public Class Form1
+    Private Sub Button1_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Button1.Click
+        txtnet.Text = CInt(txtbasicsalary.Text) + CInt(txtda.Text) + CInt(txthra.Text) + CInt(txtma.Text) + CInt(txtpf.Text) - CInt(txtpt.Text) - CInt(txtit.Text)
+        MessageBox.Show("Net salary of " & txtname.Text & " is  " & txtnet.Text)
+    End Sub
+End Class
+
+-----------------------------------------------------------------------------------------
+4)
+Imports System.Data
+Imports System.Data.SqlClient
+Public Class Form1
+    Dim con As New SqlConnection("Data Source=.;Initial Catalog=tybca;Integrated Security=True;Pooling=False")
+    Dim cmd As New SqlCommand
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Try
+            con.Open()
+            cmd.Connection = con
+            cmd.CommandText = "insert into supplier values(" + TextBox1.Text + ",'" + TextBox2.Text + "','" + TextBox3.Text + "','" + TextBox4.Text + "')"
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Record saved successfuly")
+        Catch ex As Exception
+            MessageBox.Show("Error : " + ex.Message)
+        Finally
+            con.Close()
+        End Try
+    End Sub
+End Class
+

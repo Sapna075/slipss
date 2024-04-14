@@ -1,0 +1,172 @@
+slip 11 -
+1)client
+import java.net.*;
+public class slip11_1cli
+{
+	public static void main(String args[])throws Exception
+	{
+		Socket s=new Socket("localhost",4444);
+		System.out.println(s.getLocalPort());
+		System.out.println(s.getInetAddress());
+	}
+}
+
+1)server
+import java.net.*;
+public class slip11_1ser
+{
+	public static void main(String args[])throws Exception
+	{
+		ServerSocket ss=new ServerSocket(4444);
+		System.out.println("server started");
+		Socket s=ss.accept();
+		System.out.println("connected to client");
+	}
+}
+-------------------------------------------------------------------
+2)
+
+import java.sql.*;
+public class slip11_2
+{
+	public static void main(String [] args) throws Exception 
+	{
+	Connection con;
+	Statement st;
+	String query;
+	ResultSet rs;
+	Class.forName("com.mysql.jdbc.Driver");
+	con=DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb","root","123456");
+	st=con.createStatement();
+	query="Select * from product,sales where product.pid=sales.pid And sdate between '2022/05/20' and '2022/05/30';"; 
+	rs=st.executeQuery(query);
+	while(rs.next())
+	{
+	 System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getInt(3)+" "+rs.getInt(4)+" "+rs.getInt(5)+" "+rs.getDate(7));
+	}
+	st.close();	
+	con.close();
+	}
+}
+-------------------------------------------------------------
+3)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class slip11_1 : System.Web.UI.Page
+{
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        if (TextBox1.Text.Trim() == "")
+        {
+            Label1.Visible = true;
+            Label1.Text = "Please enter User Name";
+            TextBox1.Focus();
+        }
+        else
+        {
+            Label1.Visible = false;
+        }
+        if (RadioButton1.Checked == false && RadioButton2.Checked == false && RadioButton3.Checked == false)
+        {
+            Label2.Visible = true;
+            Label2.Text = "Please select payment type";
+            TextBox2.Focus();
+        }
+        else
+        {
+            Label2.Visible = false;
+        }
+        if (TextBox2.Text.Trim().Length != 12)
+        {
+            Label3.Visible = true;
+            Label3.Text = "Credit card number should be 12 digits";
+            TextBox2.Focus();
+        }
+        else
+        {
+            Label3.Visible = false;
+        }
+    }
+}
+-----------------------------------------------------------------
+
+4)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ConsoleApplication3
+{
+    class Fruit
+    {
+        static protected int cnt = 0;
+
+        static public void count()
+        {
+            Console.WriteLine("Total Fruits are : " + cnt);
+        }
+    }
+
+    class Mango : Fruit
+    {
+        static int mcnt = 0;
+
+        public void buy()
+        {
+            mcnt++;
+            cnt++;
+        }
+
+        public void mango_cnt()
+        {
+            Console.WriteLine("Total Mangoes are : " + mcnt);
+        }
+    }
+
+    class Apple : Fruit
+    {
+        static int acnt = 0;
+
+        public void buy()
+        {
+            acnt++;
+            cnt++;
+        }
+
+        public void apple_cnt()
+        {
+            Console.WriteLine("Total Apples are : " + acnt);
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Mango m = new Mango();
+            Apple a = new Apple();
+
+            m.buy();
+            m.buy();
+            a.buy();
+            a.buy();
+            a.buy();
+            a.buy();
+
+            m.mango_cnt();
+            a.apple_cnt();
+            Fruit.count();
+
+            Console.ReadKey();
+        }
+    }
+}
+
+
+

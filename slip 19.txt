@@ -1,0 +1,201 @@
+ slip 19 -
+1)slip19_1html.jsp
+<html>
+	<body>
+		<center><br><br>
+		<form action="slip19_1.jsp" method='GET'>
+		<b>Enter Name :</b>
+		<input type=text name="name">
+		<input type=submit  value="submit">
+		<br><br></form>
+		</center>
+	</body>
+</html>	
+
+1)slip19_1.jsp
+<%@page import="java.util.*"%>
+<html>
+	<body>
+		<%
+			Date time=new Date();
+			String n=request.getParameter("name");
+			if(time.getHours()>0&&time.getHours()<12)
+			{
+				out.println("Good Morning!!! "+n);
+			}
+			else if(time.getHours()>=12&&time.getHours()<=16)
+			{
+				out.println("Good Afternoon!!! "+n);
+			}
+			else if(time.getHours()>=16&&time.getHours()<20)
+			{
+				out.println("Good Evening!!! "+n);
+			}
+			else 
+				out.println("Good Night!!! "+n);
+		%>
+	</body>
+</html>
+---------------------------------------------------------------------------------
+2)
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+
+class slip19_2 extends Frame implements ActionListener
+{
+Label l1,l2;
+TextField t1,t2;
+Button b1;
+
+public slip19_2()
+{
+setLayout(null);
+setSize(800,600);
+setTitle("Record Display");
+setVisible(true);
+
+l1=new Label("ENTER ENO");
+l1.setBounds(100,200,150,50);
+add(l1);
+
+l2=new Label("Answer");
+l2.setBounds(100,300,150,50);
+add(l2);
+
+t1=new TextField();
+t1.setBounds(300,200,150,50);
+add(t1);
+
+t2=new TextField();
+t2.setBounds(300,300,150,50);
+add(t2);
+
+
+b1=new Button("DISPLAY");
+b1.setBounds(300,400,150,50);
+add(b1);
+b1.addActionListener(this);
+
+}
+
+public void actionPerformed(ActionEvent ae)
+{
+	String cap=ae.getActionCommand();
+	if(cap.equals("DISPLAY"))
+	{
+		try
+		{
+	Connection con;
+	PreparedStatement ps;
+	String query;
+	ResultSet rs;
+	
+	
+	int a;
+	String d;
+	
+	
+	/*Scanner sc=new Scanner(System.in);
+							  	
+	System.out.println("Pls Enter ENAME");
+	b=sc.next();
+	*/
+	a=Integer.parseInt(t1.getText());
+	Class.forName("com.mysql.jdbc.Driver"); 
+	con=DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb","root","123456");
+	query="select * from student2 where rno like ?";
+	ps=con.prepareStatement(query); 
+	ps.setInt(1,a);
+	rs=ps.executeQuery();
+	if(rs.next())
+	{
+	t2.setText(rs.getInt("rno") + " " + rs.getString("sname") + " " + rs.getFloat("per"));
+	}
+	ps.close();	
+	con.close();
+	}catch(Exception e){}
+	}
+}
+	public static void main(String args[])
+	{
+	new slip19_2();
+	}
+}
+
+
+
+----------------------------------------------------------------------------------------------
+3)
+Public Class Form1
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim str As String = TextBox1.Text
+        str = StrReverse(str)
+        If TextBox1.Text = str Then
+            MessageBox.Show("string is palindrome")
+        Else
+            MessageBox.Show("string is not palindrome")
+        End If
+    End Sub
+End Class
+
+----------------------------------------------------------------
+4)
+
+using System;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+
+public partial class _Default : System.Web.UI.Page 
+{
+    float per;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    
+    protected void RadioButton1_CheckedChanged(object sender, EventArgs e)
+    {
+        Session["tot"] = Convert.ToInt32(Session["tot"]) + 1;
+        Session["good"] = Convert.ToInt32(Session["good"]) + 1;
+        per = 100 * Convert.ToInt32(Session["good"]) / Convert.ToInt32(Session["tot"]);
+        Label2.Text = per.ToString();
+        per = 100 * Convert.ToInt32(Session["sat"]) / Convert.ToInt32(Session["tot"]);
+        Label4.Text = per.ToString();
+        per = 100 * Convert.ToInt32(Session["bad"]) / Convert.ToInt32(Session["tot"]);
+        Label6.Text = per.ToString();
+    }
+
+    protected void RadioButton2_CheckedChanged(object sender, EventArgs e)
+    {
+        Session["tot"] = Convert.ToInt32(Session["tot"]) + 1;
+        Session["sat"] = Convert.ToInt32(Session["sat"]) + 1;
+        per = 100 * Convert.ToInt32(Session["good"]) / Convert.ToInt32(Session["tot"]);
+        Label2.Text = per.ToString();
+        per = 100 * Convert.ToInt32(Session["sat"]) / Convert.ToInt32(Session["tot"]);
+        Label4.Text = per.ToString();
+        per = 100 * Convert.ToInt32(Session["bad"]) / Convert.ToInt32(Session["tot"]);
+        Label6.Text = per.ToString();
+    }
+    protected void RadioButton3_CheckedChanged(object sender, EventArgs e)
+    {
+        Session["tot"] = Convert.ToInt32(Session["tot"]) + 1;
+        Session["bad"] = Convert.ToInt32(Session["bad"]) + 1;
+        per = 100 * Convert.ToInt32(Session["good"]) / Convert.ToInt32(Session["tot"]);
+        Label2.Text = per.ToString();
+        per = 100 * Convert.ToInt32(Session["sat"]) / Convert.ToInt32(Session["tot"]);
+        Label4.Text = per.ToString();
+        per = 100 * Convert.ToInt32(Session["bad"]) / Convert.ToInt32(Session["tot"]);
+        Label6.Text = per.ToString();
+    }
+}
+

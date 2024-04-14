@@ -1,0 +1,142 @@
+slip 17 -
+1)
+import java.util.*;
+class vowel extends Thread
+{
+String s2;
+Thread t1;
+vowel(String s1)
+{
+s2=s1;
+t1=new Thread(this);
+t1.start();
+}
+public void run()
+{
+for(int i=0;i<s2.length();i++)
+{
+char z=s2.charAt(i);
+if( z=='a' || z=='e' ||z=='i' ||z=='o' ||z=='u')
+{
+try
+{
+System.out.println(z);
+Thread.sleep(3000);
+}
+catch(Exception e){}
+}}}}
+public class slip17_1
+{
+public static void main(String args[])throws Exception
+{
+Scanner sc=new Scanner(System.in);
+System.out.println("Enter a string");
+String n=sc.next();
+vowel tv=new vowel(n);
+}}
+-----------------------------------------------------------------
+2)client 
+import java.net.*;
+import java.io.*;
+public class slip17_2c
+{
+ public static void main(String[] args) throws Exception 
+{
+Socket s = new Socket("localhost", 5400);
+DataInputStream dis = new DataInputStream(s.getInputStream());
+ System.out.print("result = ");
+System.out.print(dis.readUTF());
+}
+}
+
+2)server
+import java.io.*;
+import java.net.*;
+import java.util.*;
+public class slip17_2s
+{
+ public static void main(String[] args) throws Exception
+{
+ServerSocket ss = new ServerSocket(5400);
+ while (true) {
+ Socket s = ss.accept();
+ System.out.println("Server Started");
+ DataOutputStream dos = new 
+DataOutputStream(s.getOutputStream());
+ File f = new File("temp.txt");
+ if (f.exists()) {
+ Scanner sc = new Scanner(f);
+ while (sc.hasNextLine())
+ {
+ String str = sc.nextLine();
+ dos.writeUTF(f.getName() + " = file content = " + str);
+ }
+ }
+ else {
+ String stra = "file is not Exists on SERVER";
+ dos.writeUTF(" Error -- " + stra);
+ }
+ }
+ }
+}
+----------------------------------------------------------------------------------
+3)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ConsoleApplication5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str;
+
+            Console.Write("Enter String : ");
+            str = Console.ReadLine();
+
+            Console.WriteLine("Vowels from the strings are : ");
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == 'A' || str[i] == 'E' || str[i] == 'I' || str[i] == 'O' || str[i] == 'U' || str[i] == 'a' || str[i] == 'e' || str[i] == 'i' || str[i] == 'o' || str[i] == 'u')
+                {
+                    Console.WriteLine(str[i]);
+                }
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
+
+
+
+------------------------------------------------------------------------
+4)
+Imports System.Data
+Imports System.Data.SqlClient
+Public Class Form1
+    Dim con As New SqlConnection("Data Source=.;Initial Catalog=tybca;Integrated Security=True;Pooling=False")
+    Dim cmd As New SqlCommand
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Try
+            con.Open()
+            cmd.Connection = con
+            cmd.CommandText = "insert into product values(" + TextBox1.Text + ",'" + TextBox2.Text + "','" + TextBox3.Text + "'," + TextBox4.Text + ")"
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Record saved successfuly")
+        Catch ex As Exception
+            MessageBox.Show("Error : " + ex.Message)
+        Finally
+            con.Close()
+        End Try
+    End Sub
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'TODO: This line of code loads data into the 'TybcaDataSet.product' table. You can move, or remove it, as needed.
+        Me.ProductTableAdapter.Fill(Me.TybcaDataSet.product)
+
+    End Sub
+End Class
